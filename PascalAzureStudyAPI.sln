@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PascalAzureStudyAPI", "PascalAzureStudyAPI\PascalAzureStudyAPI.csproj", "{CAE7BC84-2AD6-4A1A-B6BD-70A37F0CD73E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CAE7BC84-2AD6-4A1A-B6BD-70A37F0CD73E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAE7BC84-2AD6-4A1A-B6BD-70A37F0CD73E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAE7BC84-2AD6-4A1A-B6BD-70A37F0CD73E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAE7BC84-2AD6-4A1A-B6BD-70A37F0CD73E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D86A6766-D7EE-42A1-99BD-1C9CE2691B8F}
+	EndGlobalSection
+EndGlobal
