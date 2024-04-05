@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace PascalAzureStudyAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("/")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
