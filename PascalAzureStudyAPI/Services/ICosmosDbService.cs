@@ -2,7 +2,7 @@
 
 namespace PascalAzureStudyAPI.Services
 {
-    public interface ICosmosDbService1
+    public interface ICosmosDbService
     {
         Task AddAsync(Portfolio portfolio);
         Task DeleteAsync(string id);
