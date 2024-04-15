@@ -1,6 +1,7 @@
 ﻿using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using Microsoft.AspNetCore.Mvc;
+using PascalAzureStudyAPI.Services;
 using System.Diagnostics;
 
 namespace PascalAzureStudyAPI.Controllers
@@ -8,12 +9,12 @@ namespace PascalAzureStudyAPI.Controllers
     public class TestController : Controller
     {
         private readonly ILogger<TestController> _logger;
-        private readonly IConfiguration _config;
+        private readonly IKeyVaultService _keyVaultService;
 
-        public TestController(ILogger<TestController> logger, IConfiguration config)
+        public TestController(ILogger<TestController> logger, IKeyVaultService keyVaultService)
         {
             _logger = logger;
-            _config = config;
+            _keyVaultService = keyVaultService;
         }
 
         [Route("/")]
@@ -27,31 +28,7 @@ namespace PascalAzureStudyAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> Yello()
         {
-            Console.WriteLine("Test console");
-            Debug.WriteLine("Test debug");
-            _logger.LogInformation("Test logger");
-            string keyVaultName = _config.GetValue<string>("KeyVault:Name");
-            Console.WriteLine("GOTTEN KEYVAULT NAME");
-            var kvUri = "https://" + keyVaultName + ".vault.azure.net";
-
-            string userAssignedClientId = "474cae16-c137-4ca8-ab82-2b372be900d8";
-            var credential = new DefaultAzureCredential(new DefaultAzureCredentialOptions { ManagedIdentityClientId = userAssignedClientId });
-            var client = new SecretClient(new Uri(kvUri), credential);
-
-            try
-            {
-                var secret = await client.GetSecretAsync("azure-cosmos-db-key");
-                return Ok(secret);
-            }
-            catch (Exception ex)
-            {
-                var requestObj = new ObjectResult (new
-                {
-                    credential = credential,
-                    message = ex.Message,
-                });
-                return BadRequest(requestObj);
-            }
+            return Ok(_keyVaultService.GetCosmosDbSecret());
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
+using PascalAzureStudyAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddEnvironmentVariables();
@@ -20,6 +21,9 @@ builder.Services.ConfigureSwaggerGen(setup =>
         Version = "v1"
     });
 });
+
+// Dependency injection
+builder.Services.AddTransient<IKeyVaultService, KeyVaultService>();
 
 var app = builder.Build();
 
