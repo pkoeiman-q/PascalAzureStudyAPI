@@ -13,7 +13,7 @@ namespace PascalAzureStudyAPI.Services
         private SecretClient _secretClient;
 
         // Environment variable names
-        private string CosmosDbSecretEnvName = "CosmosDbSecret";
+        private string DbPrimaryKeyEnvName = "DbPrimaryKey";
 
         public KeyVaultService(IConfiguration config)
         {
@@ -25,17 +25,17 @@ namespace PascalAzureStudyAPI.Services
             _secretClient = new SecretClient(new Uri(_keyVaultUri), credential);
 
             // Update environment variables
-            if (Environment.GetEnvironmentVariable(CosmosDbSecretEnvName) == null)
+            if (Environment.GetEnvironmentVariable(DbPrimaryKeyEnvName) == null)
             {
                 var secretObject = _secretClient.GetSecret("azure-cosmos-db-key");
                 var secretString = secretObject.Value.Value.ToString();
-                Environment.SetEnvironmentVariable(CosmosDbSecretEnvName, secretString);
+                Environment.SetEnvironmentVariable(DbPrimaryKeyEnvName, secretString);
             }
         }
 
-        public string? GetCosmosDbSecret()
+        public string? GetCosmosDbPrimaryKey()
         {
-            return Environment.GetEnvironmentVariable(CosmosDbSecretEnvName);
+            return Environment.GetEnvironmentVariable(DbPrimaryKeyEnvName);
         }
     }
 }

@@ -28,7 +28,7 @@ namespace PascalAzureStudyAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> Yello()
         {
-            return Ok(_keyVaultService.GetCosmosDbSecret());
+            return Ok(_keyVaultService.GetCosmosDbPrimaryKey());
         }
     }
 }

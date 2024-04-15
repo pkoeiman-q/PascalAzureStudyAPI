@@ -2,6 +2,6 @@
 {
     public interface IKeyVaultService
     {
-        string? GetCosmosDbSecret();
+        string? GetCosmosDbPrimaryKey();
     }
 }

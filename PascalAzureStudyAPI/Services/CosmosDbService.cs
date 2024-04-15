@@ -7,10 +7,7 @@ namespace PascalAzureStudyAPI.Services
     {
         private Container _container;
 
-        public CosmosDbService(
-            CosmosClient cosmosDbClient,
-            string databaseName,
-            string containerName)
+        public CosmosDbService(CosmosClient cosmosDbClient, string databaseName, string containerName)
         {
             _container = cosmosDbClient.GetContainer(databaseName, containerName);
         }
