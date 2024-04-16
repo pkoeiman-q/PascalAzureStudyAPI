@@ -1,14 +1,16 @@
 ﻿using Microsoft.Azure.Cosmos;
 using PascalAzureStudyAPI.Models;
 
-namespace PascalAzureStudyAPI.Services
+namespace PascalAzureStudyAPI.Repositories
 {
-    public class CosmosDbService : ICosmosDbService
+    public class PortfoliosRepository : IPortfoliosRepository
     {
-        private Container _container;
+        private readonly Container _container;
 
-        public CosmosDbService(CosmosClient cosmosDbClient, string databaseName, string containerName)
+        public PortfoliosRepository(CosmosClient cosmosDbClient, IConfiguration config)
         {
+            var databaseName = config.GetValue<string>("CosmosDb:DatabaseName");
+            var containerName = config.GetValue<string>("CosmosDb:ContainerName");
             _container = cosmosDbClient.GetContainer(databaseName, containerName);
         }
 
