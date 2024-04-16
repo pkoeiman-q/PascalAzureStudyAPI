@@ -1,6 +1,9 @@
 using System;
+using System.Configuration;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
+using Microsoft.Azure.Cosmos;
+using PascalAzureStudyAPI.Repositories;
 using PascalAzureStudyAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +15,6 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 builder.Services.ConfigureSwaggerGen(setup =>
 {
     setup.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
@@ -23,7 +25,17 @@ builder.Services.ConfigureSwaggerGen(setup =>
 });
 
 // Dependency injection
+builder.Services.AddSingleton((provider) =>
+{
+    var uri = builder.Configuration.GetValue<string>("CosmosDb:Uri");
+    var key = new KeyVaultService(builder.Configuration).GetCosmosDbPrimaryKey();
+    return new CosmosClient(uri, key);
+    // return new PortfoliosRepository(cosmosClient, "YOUR_DATABASE_NAME", "YOUR_CONTAINER_NAME");
+});
+
 builder.Services.AddTransient<IKeyVaultService, KeyVaultService>();
+builder.Services.AddTransient<IPortfoliosService, PortfoliosService>();
+builder.Services.AddTransient<IPortfoliosRepository, PortfoliosRepository>();
 
 var app = builder.Build();
 
