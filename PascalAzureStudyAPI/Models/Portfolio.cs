@@ -5,6 +5,9 @@ namespace PascalAzureStudyAPI.Models
 {
     public class Portfolio
     {
+        [JsonProperty(PropertyName = "id")]
+        public string Id { get; set; }
+
         [JsonProperty(PropertyName = "portfolioId")]
         public string PortfolioId { get; set; }
 
