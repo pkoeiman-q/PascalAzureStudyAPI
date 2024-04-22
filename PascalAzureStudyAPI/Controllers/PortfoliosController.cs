@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PascalAzureStudyAPI.Models;
 using PascalAzureStudyAPI.Services;
+using System.Numerics;
 
 namespace PascalAzureStudyAPI.Controllers
 {
@@ -15,20 +16,72 @@ namespace PascalAzureStudyAPI.Controllers
             _portfoliosService = portfoliosService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        //[HttpGet]
+        //public async Task<IActionResult> Get()
+        //{
+        //    var id = Guid.NewGuid().ToString();
+        //    var portfolioId = Guid.NewGuid().ToString();
+        //    var workExp = new WorkExperience()
+        //    {
+        //        Title = "Test",
+        //        Description = "Test",
+        //        Date = DateTime.Now,
+        //    };
+
+        //    var portfolio = new Portfolio()
+        //    {
+        //        Id = id,
+        //        PortfolioId = portfolioId,
+        //        Experiences = [workExp]
+        //    };
+        //    await _portfoliosService.AddAsync(portfolio);
+        //    var result = await _portfoliosService.GetAsync(portfolioId);
+        //    return Ok(result);
+        //}
+
+        [HttpGet("{portfolioId}")]
+        public async Task<IActionResult> GetPortfolio(string portfolioId)
         {
-            var id = Guid.NewGuid().ToString();
+            Portfolio portfolio = await _portfoliosService.GetAsync(portfolioId);
+            if (portfolio == null) return StatusCode(500, "The requested portfolio has not been found.");
+            return Ok(portfolio);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreatePortfolio(string portfolioId)
+        {
             var portfolio = new Portfolio()
             {
-                Id = id,
-                PortfolioId = id,
-                UserId = "0",
-                Description = "Lorum ipsum"
+                Id = portfolioId,
+                PortfolioId = portfolioId,
+                Experiences = []
             };
+
             await _portfoliosService.AddAsync(portfolio);
-            var result = await _portfoliosService.GetAsync(id);
-            return Ok(result);
+            return Ok(portfolio);
         }
+
+        [HttpPut("{portfolioId}")]
+        public async Task<IActionResult> UpdatePortfolioWithExperience(string portfolioId, [FromBody] IEnumerable<WorkExperience> experiences)
+        {
+            Portfolio portfolio = await _portfoliosService.GetAsync(portfolioId);
+            if (portfolio == null) return StatusCode(500, "The requested portfolio has not been found.");
+
+            portfolio.Experiences = experiences;
+            await _portfoliosService.UpdateAsync(portfolioId, portfolio);
+
+            return Ok(portfolio);
+        }
+
+        /*
+        public async Task<IActionResult> DeletePortfolio()
+        {
+            return Ok("");
+        }
+
+        public async Task<IActionResult> GetPortfolio()
+        {
+            return Ok("");
+        }*/
     }
 }
