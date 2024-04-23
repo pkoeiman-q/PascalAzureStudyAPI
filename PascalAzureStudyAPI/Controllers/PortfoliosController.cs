@@ -16,34 +16,17 @@ namespace PascalAzureStudyAPI.Controllers
             _portfoliosService = portfoliosService;
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> Get()
-        //{
-        //    var id = Guid.NewGuid().ToString();
-        //    var portfolioId = Guid.NewGuid().ToString();
-        //    var workExp = new WorkExperience()
-        //    {
-        //        Title = "Test",
-        //        Description = "Test",
-        //        Date = DateTime.Now,
-        //    };
-
-        //    var portfolio = new Portfolio()
-        //    {
-        //        Id = id,
-        //        PortfolioId = portfolioId,
-        //        Experiences = [workExp]
-        //    };
-        //    await _portfoliosService.AddAsync(portfolio);
-        //    var result = await _portfoliosService.GetAsync(portfolioId);
-        //    return Ok(result);
-        //}
+        private ObjectResult PortfolioNotFound()
+        {
+            return StatusCode(500, "The requested portfolio has not been found.");
+        }
 
         [HttpGet("{portfolioId}")]
         public async Task<IActionResult> GetPortfolio(string portfolioId)
         {
             Portfolio portfolio = await _portfoliosService.GetAsync(portfolioId);
-            if (portfolio == null) return StatusCode(500, "The requested portfolio has not been found.");
+            if (portfolio == null) return PortfolioNotFound();
+
             return Ok(portfolio);
         }
 
@@ -65,7 +48,7 @@ namespace PascalAzureStudyAPI.Controllers
         public async Task<IActionResult> UpdatePortfolioWithExperience(string portfolioId, [FromBody] IEnumerable<WorkExperience> experiences)
         {
             Portfolio portfolio = await _portfoliosService.GetAsync(portfolioId);
-            if (portfolio == null) return StatusCode(500, "The requested portfolio has not been found.");
+            if (portfolio == null) return PortfolioNotFound();
 
             portfolio.Experiences = experiences;
             await _portfoliosService.UpdateAsync(portfolioId, portfolio);
@@ -73,15 +56,14 @@ namespace PascalAzureStudyAPI.Controllers
             return Ok(portfolio);
         }
 
-        /*
-        public async Task<IActionResult> DeletePortfolio()
+        [HttpDelete("{portfolioId}")]
+        public async Task<IActionResult> DeletePortfolio(string portfolioId)
         {
-            return Ok("");
-        }
+            Portfolio portfolio = await _portfoliosService.GetAsync(portfolioId);
+            if (portfolio == null) return PortfolioNotFound();
 
-        public async Task<IActionResult> GetPortfolio()
-        {
-            return Ok("");
-        }*/
+            await _portfoliosService.DeleteAsync(portfolioId);
+            return Ok(portfolio);
+        }
     }
 }
