@@ -18,7 +18,7 @@ namespace PascalAzureStudyAPI.Controllers
 
         private ObjectResult PortfolioNotFound()
         {
-            return StatusCode(500, "The requested portfolio has not been found.");
+            return StatusCode(404, "The requested portfolio has not been found.");
         }
 
         [HttpGet("{portfolioId}")]
@@ -31,13 +31,14 @@ namespace PascalAzureStudyAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreatePortfolio(string portfolioId)
+        public async Task<IActionResult> CreatePortfolio(string portfolioId, string name)
         {
             var portfolio = new Portfolio()
             {
                 Id = portfolioId,
                 PortfolioId = portfolioId,
-                Experiences = []
+                Experiences = [],
+                Name = name,
             };
 
             await _portfoliosService.AddAsync(portfolio);
