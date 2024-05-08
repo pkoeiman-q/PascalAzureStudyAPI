@@ -21,7 +21,7 @@ namespace PascalAzureStudyAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Ok("API is live!");
+            return Ok("API is live! Test.");
         }
     }
 }
