@@ -23,12 +23,5 @@ namespace PascalAzureStudyAPI.Controllers
         {
             return Ok("API is live!");
         }
-
-        [Route("yello")]
-        [HttpGet]
-        public async Task<IActionResult> Yello()
-        {
-            return Ok(_keyVaultService.GetCosmosDbPrimaryKey());
-        }
     }
 }
