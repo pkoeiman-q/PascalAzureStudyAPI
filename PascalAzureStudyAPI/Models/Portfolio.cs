@@ -15,5 +15,8 @@ namespace PascalAzureStudyAPI.Models
 
         [JsonProperty(PropertyName = "experiences")]
         public IEnumerable<WorkExperience> Experiences { get; set; }
+
+        [JsonProperty(PropertyName = "name")]
+        public string Name { get; set; }
     }
 }
